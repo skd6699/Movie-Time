@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MovieDB</title>
+	<style type="text/css">
+		ul{
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+	</fb:login-button>
+	<script>
+		window.fbAsyncInit = function () {
+			FB.init( {
+				appId: '358919284764853',
+				cookie: true,
+				xfbml: true,
+				version: 'v3.3'
+			} );
+
+			FB.AppEvents.logPageView();
+
+		};
+
+		( function ( d, s, id ) {
+			var js, fjs = d.getElementsByTagName( s )[ 0 ];
+			if ( d.getElementById( id ) ) { return; }
+			js = d.createElement( s ); js.id = id;
+			js.src = "https://connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore( js, fjs );
+		}( document, 'script', 'facebook-jssdk' ) );
+		
+			FB.getLoginStatus( function ( response ) {
+				statusChangeCallback( response );
+				
+				function checkLoginState() {
+					FB.getLoginStatus( function ( response ) {
+						statusChangeCallback( response );
+					} );
+				}
+			} );
+	</script>
+	<%if(user){%>
+	<a href="/logout">logout</a>
+	<%}else{%>
+	<a href="/auth/google">Login with Google</a>
+	<%}%>
+		
+	<h1>MovieDB</h1>
+	<caption>Statistics like never before.</caption>
+	<div>
+		<h1>
+    Search for a Movie
+</h1>
+
+<form action="/results" method="GET">
+    <input type="text"  placeholder="search term" name="search">
+    <input type="submit">
+</form>
+</div>
+<div>
+<a href="/stats">Stats</a>
+<%if(user){%>
+<p>View Basic Stats:</p>
+<button>View</button>
+<ul>
+	<li>Total No.of Movies:          <%=noofmovies%></li>
+	<%movies.forEach(function(movie){%>
+	<li>Total No.of <%=movie["lang"]%> Movies: <%=movie["count"]%></li>
+	<%});%>
+</ul>
+<a href="/profile/<%=user.id%>/<%=user.Name%>">Profile</a>	
+<%}%>
+	</div>
+ <script
+			  src="http://code.jquery.com/jquery-3.3.1.min.js"
+			  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+			  crossorigin="anonymous"></script>
+	
+
+	<script type="text/javascript">
+		$("button").click(function(){
+			$( "ul" ).toggle();
+			if($("button").html()=="View")
+					$("button").html("Hide");
+			else
+			  $("button").html("View");
+					
+		});	
+
+	</script>
+</body>
+</html>

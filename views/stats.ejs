@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Statistics</title>
+</head>
+<body>
+	Advanced Stats:
+	<%if(locals.topratedmovies){%>
+	<p>Top Rated Movies :</p>
+	<%topratedmovies.forEach(function (movie){%>
+	<p><%=movie["topratedmovies"]%></p>
+<%});}%> 
+	</p>
+	<form action="" method="POST">
+	<label for="rating">Search rating</label>
+	<input type="text" name="rating">
+ 	<input type="submit" name="add" value="Search">
+</form>
+	<%if(locals.ratedmovies){ratedmovies.forEach(function(movie){%>
+	<p><%=movie["ratedmovies"]%></p>
+<%});}%>
+
+<h3>Last watched</h3>
+	<%if(locals.recent){recent.forEach(function(movie){%>
+	<p><%=movie["Movie"]%>-  <%=movie["Language"]%>    Your Rating:<%=movie["My_Rating"]%></p>
+<%});}%>
+
+	<%if(locals.yearmovies){yearmovies.forEach(function(row){%>
+	<p>No.of Movies in the year <%=row["y"]%> -- <%=row["yearmovies"]%>  
+		<% let runtime = row["yearruntime"];let days = Math.floor(runtime/1440);%>
+		<%let hours =Math.floor((runtime%1440)/60); let minutes =  Math.floor((runtime%1440)%60); %>
+		You've Watched for <%=days%>  Days <%=hours%> Hours <%=minutes%> Minutes </p>
+<%});}%>
+
+	<%if(locals.yearmovies){yearmovies.forEach(function(year){%>
+	<%let y = year["y"]%>
+	<h3><%=y%></h3>
+	<%monthmovies.forEach(function(row){%>
+	<%if(y==row["y"]){%>
+	<p>No.of Movies in the month <%=row["m"]%> -- <%=row["yearmovies"]%>   
+		<% let runtime = row["monthruntime"];let days = Math.floor(runtime/1440);%>
+		<%let hours =Math.floor((runtime%1440)/60); let minutes =  Math.floor((runtime%1440)%60); %>
+		You've Watched for <%=days%>  Days <%=hours%> Hours <%=minutes%> Minutes</p>
+<%}});});}%>
+</body>
+</html>
